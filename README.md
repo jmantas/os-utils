@@ -1,2 +1,2 @@
 os-utils
-wrappers for OS utilities
+python wrappers for OS utilities

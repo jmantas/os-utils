@@ -1,3 +1,2 @@
-# osutilities
-Python wrappers for OS utilities.
-
+os-utils
+wrappers for OS utilities

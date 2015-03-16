@@ -9,7 +9,6 @@ import os_env
 import block_device
 
 
-
 def check_loop_device():
     """ implemented in os_env.py as file_checker() ?"""
     pass

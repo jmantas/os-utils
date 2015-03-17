@@ -8,7 +8,8 @@ import os_env
 import block_device
 
 def main():
-    """ main function, gets parameters for unmount, and unmounts mountpoint defined by -m """
+    """ main function, gets parameters for unmount, and unmounts mountpoint defined by -m 
+        and cleans up mapper interface and loop devices """
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--mountpoint", metavar='<mount point>', dest="mount_point",
         help="mount point to unmount", type=str)

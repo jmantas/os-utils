@@ -8,7 +8,9 @@ import os_env
 import block_device
 
 def main():
-    """ main function, gets parameters for creating crypted disk """
+    """ main function, gets parameters for creating crypted disk.
+        by default creates disk named <username>.dat.disk size 64MB 
+        with ext3 file system """
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--disk", metavar='[disk name]', dest="disk_name",
         help="disk name, defaults to username", type=str, default=str(os_env.get_disk_name()))

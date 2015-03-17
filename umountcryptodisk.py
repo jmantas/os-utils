@@ -4,8 +4,8 @@
 """ utility to unmount crypted disk file in *nix"""
 
 import argparse
-from osutils import os_env
-from osutils import block_device
+import os_env
+import block_device
 
 def main():
     """ main function, gets parameters for unmount, and unmounts mountpoint defined by -m """

@@ -6,7 +6,6 @@
 import subprocess
 import os
 import os_env
-import block_device
 
 
 def check_loop_device():
@@ -16,6 +15,7 @@ def check_loop_device():
 
 def create_loop_device(loop_device):
     """ creates loop device ( block device major number 7 ) """
+
     user_id = str(os_env.get_user_id())
     print "Creating loop device disk %s" % loop_device
     if subprocess.check_call(["sudo", "mknod", loop_device, "b", "7", user_id]) == 0:
@@ -32,6 +32,7 @@ def link_loop_device(loop_device, file_disk_name_to_link):
 
 def check_crypted_interface_status(crypted_mapper_interface):
     """ checks crypted interface status """
+
     if subprocess.check_call(["sudo", "cryptsetup", "status", crypted_mapper_interface]) != 0:
         print "% does not exist." % crypted_mapper_interface
         return False
@@ -41,10 +42,11 @@ def check_crypted_interface_status(crypted_mapper_interface):
 
 def create_crypted_interface(mapper_interface, loop_device):
     """ creates crypted interface to the loop device which is linked to disk file """
+
     mapper_interface_path = str(os_env.get_mapper_interface_full_path(mapper_interface))
 
     print "Creating aes-cbc-essiv:sha256 crypted interface %s to %s" % (mapper_interface_path, loop_device)
-    if subprocess.check_call(["sudo", "cryptsetup", "-c", "aes-cbc-essiv:sha256",
+    if subprocess.check_call(["sudo", "cryptsetup", "-c", "aes-cbc-essiv:sha256", \
         "create", mapper_interface, loop_device]) == 0:
         os_env.print_success()
 
@@ -54,14 +56,14 @@ def check_disk_file_status():
     pass
 
 def create_disk_file(file_disk_name_to_create, disk_size):
-    """ creates disk file and fills it with zeroes 
-        todo: implement configuration parsing for disk size    
+    """ creates disk file and fills it with zeroes
+        todo: implement configuration parsing for disk size
     """
     print "Creating zeroed disk %s" % file_disk_name_to_create
     output_file = "of=" + file_disk_name_to_create
     input_file = "if=/dev/zero"
     block_size = "bs=1M"
-    block_count = "count=%s" % disk_size 
+    block_count = "count=%s" % disk_size
     if subprocess.check_call(["sudo", "dd", input_file, output_file, block_size, block_count]) == 0:
         os_env.print_success()
 
@@ -76,12 +78,13 @@ def create_fs(file_system_type, mapper_interface_path):
 
 def check_mount_status(mount_point_to_check):
     """ checks if mountpoint is mounted or not """
+
     return os.path.ismount(mount_point_to_check)
 
 
 def mount_crypted_disk(crypted_interface_to_mount, directory_to_mount):
     """ mounts already crypted disk """
-    
+
     if not check_mount_status(directory_to_mount):
         print "Mounting %s to %s" % (crypted_interface_to_mount, directory_to_mount)
         if subprocess.check_call(["sudo", "mount", crypted_interface_to_mount, directory_to_mount]) == 0:
@@ -92,13 +95,14 @@ def mount_crypted_disk(crypted_interface_to_mount, directory_to_mount):
 
 def unmount_mount_point(mount_point_to_unmount):
     """ unmounts mountpoint """
+
     print "Unmounting %s" % mount_point_to_unmount
     if check_mount_status(mount_point_to_unmount):
         if subprocess.check_call(["sudo", "umount", mount_point_to_unmount]) == 0:
             os_env.print_success()
     else:
         print "Mountpoint is not mounted"
-    
+
 
 def remove_crypted_interface(mapper_interface):
     """ removes /dev/mapper/*.crypt interface """
@@ -121,3 +125,19 @@ def remove_loop_device(loop_device):
         if subprocess.check_call(["sudo", "rm", loop_device]) == 0:
             os_env.print_success()
 
+
+def pgp_encrypt(file_name_to_pgp_encrypt):
+    """ encrypts using GnuPG with simple symetric key """
+
+    print "Encrypting %s with symetric key" % file_name_to_pgp_encrypt
+    if subprocess.check_call(["gpg", "-c", file_name_to_pgp_encrypt]) == 0:
+        os_env.print_success()
+
+
+
+def pgp_decrypt(file_name_to_pgp_decrypt):
+    """ decrypts using GnuPG """
+
+    print "Decrypting %s " % file_name_to_pgp_decrypt
+    if subprocess.check_call(["gpg", "-d", file_name_to_pgp_decrypt]) == 0:
+        os_env.print_success()

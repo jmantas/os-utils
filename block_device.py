@@ -135,9 +135,9 @@ def pgp_encrypt(file_name_to_pgp_encrypt):
 
 
 
-def pgp_decrypt(file_name_to_pgp_decrypt):
+def pgp_decrypt(file_name_to_pgp_decrypt, file_name_to_save):
     """ decrypts using GnuPG """
 
-    print "Decrypting %s " % file_name_to_pgp_decrypt
-    if subprocess.check_call(["gpg", "-d", file_name_to_pgp_decrypt]) == 0:
+    print "Decrypting %s to %s" % (file_name_to_pgp_decrypt, file_name_to_save)
+    if subprocess.check_call(["gpg","--output", file_name_to_save, "-d", file_name_to_pgp_decrypt]) == 0:
         os_env.print_success()

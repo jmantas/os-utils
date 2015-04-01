@@ -141,3 +141,11 @@ def pgp_decrypt(file_name_to_pgp_decrypt, file_name_to_save):
     print "Decrypting %s to %s" % (file_name_to_pgp_decrypt, file_name_to_save)
     if subprocess.check_call(["gpg","--output", file_name_to_save, "-d", file_name_to_pgp_decrypt]) == 0:
         os_env.print_success()
+
+
+def file_cleaner(file_to_remove):
+    """Remove file"""
+    print "Removing %s" % file_to_remove
+    if subprocess.check_call(["sudo", "rm", "-f", file_to_remove]) == 0:
+        os_env.print_success()
+    

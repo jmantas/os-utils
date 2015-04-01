@@ -13,6 +13,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--mountpoint", metavar='<mount point>', dest="mount_point",
         help="mount point to unmount", type=str)
+    parser.add_argument("-c", "--pgpencrypt", help="If set, also encrypt disk file with PGP", action="store_true")
     args = parser.parse_args()
     
     mount_point_to_unmount = args.mount_point 
@@ -25,7 +26,12 @@ def main():
     
     block_device.remove_crypted_interface(crypted_mapper_interface)
     block_device.remove_loop_device(loop_device)
-
+    
+    """Checks if -c option is set, for additional PGP encryption. If true - PGP crypts it. 
+    if args.pgpencrypt:
+        block_device.pgp_encrypt(file_disk_name)
+        block_device.file_cleaner(file_disk_name)
+    """ 
     
 if __name__ == "__main__":
     main()

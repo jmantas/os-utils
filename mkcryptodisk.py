@@ -18,6 +18,7 @@ def main():
         help="disk size in MB, defaults to 64MB", type=str, default="64")
     parser.add_argument("-f", "--fstype", metavar='[file system type]', dest="fs_type",
         help="file system type ( ext3, ext4, vfat, ... ), defaults to ext3", type=str, default="ext3")
+    parser.add_argument("-c", "--pgpencrypt", help="If set, also encrypt disk file with PGP", action="store_true")
     args = parser.parse_args()
 
     loop_device = str(os_env.get_loop_device())
@@ -42,6 +43,9 @@ def main():
         block_device.create_crypted_interface(mapper_interface, loop_device)
 
     block_device.create_fs(file_system_type, mapper_interface_path)
+    
+    if args.pgpencrypt:
+        block_device.pgp_encrypt(file_disk_name)
 
     block_device.remove_crypted_interface(mapper_interface)
     block_device.remove_loop_device(loop_device)

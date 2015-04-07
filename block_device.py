@@ -127,10 +127,10 @@ def remove_loop_device(loop_device):
 
 
 def pgp_encrypt(file_name_to_pgp_encrypt):
-    """ encrypts using GnuPG with simple symetric key """
+    """ encrypts using GnuPG with simple symetric key using AES256 block cipher"""
 
     print "Encrypting %s with symetric key" % file_name_to_pgp_encrypt
-    if subprocess.check_call(["gpg", "--symetric", file_name_to_pgp_encrypt]) == 0:
+    if subprocess.check_call(["gpg", "--symmetric", "--cipher-algo", "AES256",file_name_to_pgp_encrypt]) == 0:
         os_env.print_success()
 
 

@@ -94,7 +94,7 @@ def mount_crypted_disk(crypted_interface_to_mount, directory_to_mount):
 
 
 def unmount_mount_point(mount_point_to_unmount):
-    """ unmounts mountpoint """
+    """ unmounts mountpoint  """
 
     print "Unmounting %s" % mount_point_to_unmount
     if check_mount_status(mount_point_to_unmount):
@@ -115,7 +115,7 @@ def remove_crypted_interface(mapper_interface):
 
 
 def remove_loop_device(loop_device):
-    """ removes /dev/loop<userID> device"""
+    """ removes /dev/loop<userID> device """
 
     if os_env.file_checker(loop_device):
         print "Detaching from loop device %s" % loop_device

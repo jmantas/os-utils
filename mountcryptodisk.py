@@ -3,23 +3,22 @@
 
 """ utility to mount crypted disk file in *nix"""
 
-import argparse   
+import click
 import os_env
 import block_device
 
 
-def main():
+@click.command()
+@click.option('-d', "--disk", help='Disk name to mount.' )
+@click.option('-m', "--mountpoint", help='Mountpoint')
+def main(disk, mountpoint):
     """ main function, gets parameters file disk and mount point, checks if loop device exists
         if not - creates it, links. Then checks if /dev/mapper/*.crypt device exists, if not -
         creates it.
         After that - mounts disk to mountpoint """
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--disk", metavar='<disk name>', dest="disk_name", help="disk name", type=str)
-    parser.add_argument("-m", "--mountpoint", metavar='<mount point>', dest="mount_point", type=str)
-    args = parser.parse_args()
 
-    disk_to_mount = args.disk_name 
-    directory_to_mount = args.mount_point 
+    disk_to_mount = disk
+    directory_to_mount = mountpoint 
     loop_device = str(os_env.get_loop_device())
     crypted_mapper_interface = str(os_env.get_mapper_interface())
     crypted_interface_to_mount = str(os_env.get_mapper_interface_full_path(crypted_mapper_interface))

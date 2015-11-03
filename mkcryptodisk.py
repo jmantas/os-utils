@@ -12,7 +12,7 @@ import block_device
                 help='Disk name. Default = crypteddisk' )
 @click.option('--size', default=64,
                 help='Disk size. Default = 64M')
-@click.option('--fstype', default="ext3",
+@click.option('--fstype', default='ext3',
                 help='File system type. Default = ext3')
 @click.option('--pgp/--no-pgp', default=False, 
                 help='PGP encrypt. Default = False')

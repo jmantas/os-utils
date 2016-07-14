@@ -8,6 +8,7 @@ os-utils: utilities, wrappers and modules for various OS tasks
 * block_device.py - module for manipulating block devices and disk files.
 * os_env.py - module for geting various OS parameters and performing checks.
 * change-digitalvibrance.sh - little script for changing digital vibrance for nvidia GPU on linux
+* sysdiag.sh - skeleton script for initial system diagnostics
 
 To create awesome greyscale like:
 ```bash
